@@ -98,6 +98,11 @@ untuk mengecek apakah suatu variable itu reactive atau tidak kita bisa menggunak
 di import terlebih dahulu helper nya -> import {isRef,isReactive} from 'vue' , kemudian di gunakan untuk pengecekan variable
 isRef(variable untuk di check), isReactive(variable untuk check) dan hasil kembalian dari pengecekan ini adalah true atau false     
 
+dalam options API ini juga bisa menggukan this.$route dan this.$router untuk navigasi.
+pertama kita harus import hooks yang ada pada vue router, cth -> import {userRoute,useRouter} from 'vue-router'
+setelah itu obj yang sudah kita import bisa kita gunakan, cth -> const route = userRoute(); route.params.id; 
+untuk penggunaan router sama perlu di inport dulu hooks nya, cth import {userRoute,useRouter} from 'vue-router'
+setelah itu obj yang sudah kita import bisa kita gunakan , cth -> const router = userRouter(); router.push('/url);
 */
 
 import { ref, reactive, computed, watch, provide } from 'vue';
