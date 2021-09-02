@@ -6,6 +6,12 @@
     <button @click="toogleGoals">Show/Hide Goals</button>
   </section>
   <section class="container">
+    <h1>Ini Menggunakan VUEX</h1>
+    <h2>{{ counter }}</h2>
+    <button @click="addCounter">Add Counter 1</button>
+    <button @click="minusCounter">Minus Counter 1</button>
+  </section>
+  <section class="container">
     <user-data
       class="test"
       :first-name="firstName"
@@ -106,6 +112,8 @@ setelah itu obj yang sudah kita import bisa kita gunakan , cth -> const router =
 */
 
 import { ref, reactive, computed, watch, provide } from 'vue';
+import { useStore } from 'vuex';
+
 import UserData from './components/UserData.vue';
 
 export default {
@@ -133,6 +141,10 @@ export default {
     //var namadepan dan namabelakang akan langsung di bind oleh v-model, namun var ini harus di regiskan dulu di return di bawah.
     const namadepan = ref('');
     const namabelakang = ref('');
+
+    //ini adalah cara untuk menggunakan vue sebagai pengganti this.$store
+    const store = useStore();
+
     const goals = reactive({
       show: true,
       data: [
@@ -176,6 +188,11 @@ export default {
       return 'Hello ' + combineName.value;
     });
 
+    //variable store adalah pengganti dari this.$store yang pada composition api jadi const store = useStore();
+    const counter = computed(() => {
+      return store.getters.getCounter;
+    });
+
     const expenseleft = computed(() => {
       return funds.value - expense.value;
     });
@@ -207,6 +224,14 @@ export default {
       goals.show = !goals.show;
     };
 
+    const addCounter = () => {
+      store.dispatch('actionsAdd');
+    };
+
+    const minusCounter = () => {
+      store.dispatch('actionsDecrease');
+    };
+
     watch(expense, (newValue) => {
       if (newValue > funds.value) {
         alert('You Are Broke');
@@ -236,8 +261,11 @@ export default {
       toogleReactive: toogleReactive,
       toogleGoals: toogleGoals,
       addExpense,
+      addCounter,
+      minusCounter,
       setLastName,
       expenseleft,
+      counter,
       goals,
       fullname,
     };
